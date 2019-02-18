@@ -17,6 +17,8 @@
 		var canvas = document.getElementById('video-canvas');
 		// var url = 'ws://'+ '192.168.0.87'+':8182/';
 		var url = 'ws://'+document.location.hostname+':8182/';
+		console.log(url);
+		
 		var player = new JSMpeg.Player(url, {canvas: canvas});
 		console.log('streamin');
 		
