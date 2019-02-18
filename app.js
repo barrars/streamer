@@ -3,9 +3,14 @@
 // Example:
 // node websocket-relay yoursecret 8081 8082
 // ffmpeg -i <some input> -f mpegts http://localhost:8081/yoursecret
-var cmd = require('node-cmd')
-const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`
-cmd.run(ffmpeg_command)
+// var cmd = require('node-cmd')
+// const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`
+// cmd.get(ffmpeg_command, (err, data, strerr)=>{
+//   console.log('IS THISD EEVNE WORKING!>!>!>!')
+//   console.log({
+//     err, data, strerr
+//   })
+// })
 
 var fs = require('fs')
 
