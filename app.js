@@ -4,7 +4,7 @@
 // node websocket-relay yoursecret 8081 8082
 // ffmpeg -i <some input> -f mpegts http://localhost:8081/yoursecret
 var cmd = require('node-cmd')
-const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video1 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8081/supersecret`
+const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video1 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`
 cmd.run(ffmpeg_command)
 
 var fs = require('fs')
@@ -23,9 +23,9 @@ if (process.argv.length < 3) {
 
 var STREAM_SECRET = process.argv[2]
 
-var STREAM_PORT = process.argv[3] || 8081
+var STREAM_PORT = process.argv[3] || 8181
 
-var WEBSOCKET_PORT = process.argv[4] || 8082
+var WEBSOCKET_PORT = process.argv[4] || 8182
 
 var RECORD_STREAM = false
 
