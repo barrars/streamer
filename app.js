@@ -17,6 +17,9 @@ var fs = require('fs')
 var http = require('http')
 
 var WebSocket = require('ws')
+var express = require('express')
+var app = express()
+app.enable('trust proxy');
 
 if (process.argv.length < 3) {
   console.log(
@@ -64,7 +67,7 @@ socketServer.broadcast = function (data) {
 }
 
 // HTTP Server to accept incomming MPEG-TS Stream from ffmpeg
-http.createServer(function (request, response) {
+app.get('*', (request, response) => {
   var params = request.url.substr(1).split('/')
   console.log(params)
 
