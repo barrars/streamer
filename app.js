@@ -42,6 +42,7 @@ socketServer.connectionCount = 0;
 socketServer.on("connection", function(socket, upgradeReq) {
   if(socketServer.connectionCount == 0 && !WEBCAM_PROCEES_ID){
     //Start the webcam process
+    console.log('Starting webcam!!')
     const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`
     WEBCAM_PROCEES_ID = cmd.get(ffmpeg_command, (err, data, strerr)=>{
   console.log('IS THISD EEVNE WORKING!>!>!>!')
