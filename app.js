@@ -63,7 +63,7 @@ socketServer.on("connection", function(socket, upgradeReq) {
       console.log("Stop the webcam already");
       // cmd.get(`kill -9 ${WEBCAM_PROCEES_ID.pid}`, cmd_callback)
       console.log(`Killing process ${WEBCAM_PROCEES_ID.pid}`)
-      process.kill(WEBCAM_PROCEES_ID.pid, 'SIGHUP')
+      process.kill(WEBCAM_PROCEES_ID.pid, 'SIGKILL')
       WEBCAM_PROCEES_ID = null
       console.log({WEBCAM_PROCEES_ID})
     }
