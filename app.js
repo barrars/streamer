@@ -6,6 +6,7 @@
 var cmd = require("node-cmd");
 
 var fs = require("fs");
+const { spawn, exec } = require('child_process');
 
 var http = require("http");
 
@@ -64,8 +65,8 @@ socketServer.on("connection", function(socket, upgradeReq) {
       console.log("Stop the webcam already");
       console.log(`Killing process ${WEBCAM_PROCEES_ID.pid}`)
 
-      let kill_cmd = cmd.run(`kill -9 ${WEBCAM_PROCEES_ID.pid}`, cmd_callback)
-      // process.kill(WEBCAM_PROCEES_ID.pid, 'SIGINT')
+      let kill_cmd = cmd.run(`killall ffmpeg`, cmd_callback)
+      process.kill(WEBCAM_PROCEES_ID.pid, 'SIGINT')
       WEBCAM_PROCEES_ID = null
       console.log({WEBCAM_PROCEES_ID})
       console.log({kill_cmd})
