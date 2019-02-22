@@ -18,7 +18,7 @@
 		// var url = 'ws://'+ '192.168.0.87'+':8182/';
 		//		var url = 'wss://66.8.204.49:8182/streamer';
 
-		var url = 'wss://'+document.location.hostname+'/webcam';
+		var url = 'wss://'+document.location.hostname+':443/webcam/';
 		console.log(url);
 		
 		var player = new JSMpeg.Player(url, {canvas: canvas});
