@@ -43,14 +43,7 @@ socketServer.on("connection", function(socket, upgradeReq) {
     //Start the webcam process
     console.log("Starting webcam!!");
     const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`;
-    WEBCAM_PROCEES_ID = cmd.get(ffmpeg_command, (err, data, strerr) => {
-      console.log("IS THISD EEVNE WORKING!>!>!>!");
-      console.log({
-        err,
-        data,
-        strerr
-      });
-    });
+    WEBCAM_PROCEES_ID = cmd.get(ffmpeg_command, cmd_callback);
     console.log({WEBCAM_PROCEES_ID})
   }
   socketServer.connectionCount++;
@@ -67,7 +60,7 @@ socketServer.on("connection", function(socket, upgradeReq) {
     );
     if (socketServer.connectionCount == 0) {
       console.log("Stop the webcam already");
-      cmd.get(`kill -9 ${WEBCAM_PROCEES_ID.pid}`)
+      cmd.get(`kill -9 ${WEBCAM_PROCEES_ID.pid}`, cmd_callback)
       WEBCAM_PROCEES_ID = null
       console.log({WEBCAM_PROCEES_ID})
     }
@@ -143,3 +136,14 @@ console.log(
 console.log(
   "Awaiting WebSocket connections on ws://127.0.0.1:" + WEBSOCKET_PORT + "/"
 );
+
+
+
+//cmd process callback
+cmd_callback = (err, data, strerr) => {
+  console.log({
+    err,
+    data,
+    strerr
+  });
+}
