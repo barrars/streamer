@@ -15,15 +15,16 @@ var express = require("express");
 var app = express();
 app.enable("trust proxy");
 
-if (process.argv.length < 3) {
-  console.log(
-    "Usage: \n" +
-      "node websocket-relay.js <secret> [<stream-port> <websocket-port>]"
-  );
-  process.exit();
-}
+// if (process.argv.length < 3) {
+//   console.log(
+//     "Usage: \n" +
+//       "node websocket-relay.js <secret> [<stream-port> <websocket-port>]"
+//   );
+//   process.exit();
+// }
 
-var STREAM_SECRET = process.argv[2];
+// var STREAM_SECRET = process.argv[2];
+// var STREAM_SECRET = ;
 
 var STREAM_PORT = process.argv[3] || 8181;
 
@@ -95,16 +96,16 @@ var streamServer = http
     var params = request.url.substr(1).split("/");
     console.log(params);
 
-    if (params[0] !== STREAM_SECRET) {
-      console.log(
-        "Failed Stream Connection: " +
-          request.socket.remoteAddress +
-          ":" +
-          request.socket.remotePort +
-          " - wrong secret."
-      );
-      response.end();
-    }
+    // if (params[0] !== STREAM_SECRET) {
+    //   console.log(
+    //     "Failed Stream Connection: " +
+    //       request.socket.remoteAddress +
+    //       ":" +
+    //       request.socket.remotePort +
+    //       " - wrong secret."
+    //   );
+    //   response.end();
+    // }
 
     response.connection.setTimeout(0);
     console.log(
