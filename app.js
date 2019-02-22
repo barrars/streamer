@@ -59,6 +59,7 @@ socketServer.on("connection", function(socket, upgradeReq) {
   });
 });
 socketServer.broadcast = function(data) {
+  console.log('Broadcasting')
   socketServer.clients.forEach(function(client) {
     console.log(client)
     if (client.readyState === WebSocket.OPEN) {
@@ -94,6 +95,8 @@ app
         request.socket.remotePort
     );
     request.on("data", function(data) {
+      console.log('Got stream data')
+      console.log(data)
       socketServer.broadcast(data);
       if (request.socket.recording) {
         request.socket.recording.write(data);
