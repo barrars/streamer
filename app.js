@@ -32,7 +32,7 @@ var WEBSOCKET_PORT = process.argv[4] || 8182;
 
 var RECORD_STREAM = false;
 
-var WEBCAM_PROCEES_ID = null;
+var WEBCAM_PROCEES = null;
 
 // Websocket Server
 var socketServer = new WebSocket.Server({
@@ -41,14 +41,14 @@ var socketServer = new WebSocket.Server({
 });
 socketServer.connectionCount = 0;
 socketServer.on("connection", function(socket, upgradeReq) {
-  if (socketServer.connectionCount == 0 && !WEBCAM_PROCEES_ID) {
+  if (socketServer.connectionCount == 0 && !WEBCAM_PROCEES) {
     //Start the webcam process
     console.log("Starting webcam!!");
     const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`;
-    WEBCAM_PROCEES_ID = cmd.run(ffmpeg_command, cmd_callback);
-    const pid = WEBCAM_PROCEES_ID.pid
+    WEBCAM_PROCEES = cmd.run(ffmpeg_command, cmd_callback);
+    // const pid = WEBCAM_PROCEES.pid
     // console.log({WEBCAM_PROCEES_ID})
-    console.log({pid})
+    // console.log({pid})
   }
   socketServer.connectionCount++;
   console.log(
@@ -64,13 +64,16 @@ socketServer.on("connection", function(socket, upgradeReq) {
     );
     if (socketServer.connectionCount == 0) {
       console.log("Stop the webcam already");
-      console.log(`Killing process ${WEBCAM_PROCEES_ID.pid}`)
+      console.log(`Killing process ffmpeg`)
 
       let kill_cmd = cmd.run(`killall ffmpeg`, cmd_callback)
-      process.kill(WEBCAM_PROCEES_ID.pid, 'SIGINT')
-      WEBCAM_PROCEES_ID = null
-      console.log({WEBCAM_PROCEES_ID})
-      console.log({kill_cmd})
+      // process.kill(WEBCAM_PROCEES_ID.pid, 'SIGINT')
+      kill_cmd.on('close', ()=>{
+        console.log('close')
+      })
+      WEBCAM_PROCEES = null
+      // console.log({WEBCAM_PROCEES_ID})
+      // console.log({kill_cmd})
 
     }
   });
