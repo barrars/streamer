@@ -59,12 +59,12 @@ socketServer.on("connection", function(socket, upgradeReq) {
   });
 });
 socketServer.broadcast = function(data) {
-  console.log('Broadcasting')
+  // console.log('Broadcasting')
   socketServer.clients.forEach(function(client) {
-    console.log(client)
+    // console.log(client)
     if (client.readyState === WebSocket.OPEN) {
-      console.log('sending Data')
-      console.log(data)
+      // console.log('sending Data')
+      // console.log(data)
       client.send(data);
     }
   });
@@ -98,8 +98,8 @@ var streamServer = http.createServer( function(request, response) {
         request.socket.remotePort
     );
     request.on("data", function(data) {
-      console.log('Got stream data')
-      console.log(data)
+      // console.log('Got stream data')
+      // console.log(data)
       socketServer.broadcast(data);
       if (request.socket.recording) {
         request.socket.recording.write(data);
