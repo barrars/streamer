@@ -71,8 +71,10 @@ socketServer.broadcast = function(data) {
 };
 
 // HTTP Server to accept incomming MPEG-TS Stream from ffmpeg
-app
-  .get("*", (request, response) => {
+// app
+  // .get("*", (request, response) => {
+var streamServer = http.createServer( function(request, response) {
+
     console.log('TS????')
     var params = request.url.substr(1).split("/");
     console.log(params);
