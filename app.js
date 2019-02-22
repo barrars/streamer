@@ -62,11 +62,14 @@ socketServer.on("connection", function(socket, upgradeReq) {
     );
     if (socketServer.connectionCount == 0) {
       console.log("Stop the webcam already");
-      // cmd.get(`kill -9 ${WEBCAM_PROCEES_ID.pid}`, cmd_callback)
       console.log(`Killing process ${WEBCAM_PROCEES_ID.pid}`)
-      process.kill(WEBCAM_PROCEES_ID.pid, 'SIGINT')
+
+      let kill_cmd = cmd.get(`kill -9 ${WEBCAM_PROCEES_ID.pid}`, cmd_callback)
+      // process.kill(WEBCAM_PROCEES_ID.pid, 'SIGINT')
       WEBCAM_PROCEES_ID = null
       console.log({WEBCAM_PROCEES_ID})
+      console.log({kill_cmd})
+
     }
   });
 });
