@@ -86,7 +86,8 @@ var streamServer = http
         request.socket.remotePort
     );
     request.on("data", function(data) {
-
+      // console.log('Got stream data')
+      // console.log(data)
       socketServer.broadcast(data);
       if (request.socket.recording) {
         request.socket.recording.write(data);
@@ -107,14 +108,14 @@ var streamServer = http
   })
   .listen(STREAM_PORT);
 
-// console.log(
-//   "Listening for incomming MPEG-TS Stream on http://127.0.0.1:" +
-//     STREAM_PORT +
-//     "/<secret>"
-// );
-// console.log(
-//   "Awaiting WebSocket connections on ws://127.0.0.1:" + WEBSOCKET_PORT + "/"
-// );
+console.log(
+  "Listening for incomming MPEG-TS Stream on http://127.0.0.1:" +
+    STREAM_PORT +
+    "/<secret>"
+);
+console.log(
+  "Awaiting WebSocket connections on ws://127.0.0.1:" + WEBSOCKET_PORT + "/"
+);
 
 //cmd process callback
 cmd_callback = (err, data, strerr) => {
