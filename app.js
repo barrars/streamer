@@ -3,14 +3,8 @@
 // Example:
 // node websocket-relay yoursecret 8081 8082
 // ffmpeg -i <some input> -f mpegts http://localhost:8081/yoursecret
-// var cmd = require('node-cmd')
-// const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`
-// cmd.get(ffmpeg_command, (err, data, strerr)=>{
-//   console.log('IS THISD EEVNE WORKING!>!>!>!')
-//   console.log({
-//     err, data, strerr
-//   })
-// })
+var cmd = require('node-cmd')
+
 
 var fs = require("fs");
 
@@ -37,6 +31,8 @@ var WEBSOCKET_PORT = process.argv[4] || 8182;
 
 var RECORD_STREAM = false;
 
+var WEBCAM_PROCEES_ID = null
+
 // Websocket Server
 var socketServer = new WebSocket.Server({
   port: WEBSOCKET_PORT,
@@ -44,6 +40,16 @@ var socketServer = new WebSocket.Server({
 });
 socketServer.connectionCount = 0;
 socketServer.on("connection", function(socket, upgradeReq) {
+  if(socketServer.connectionCount == 0 && !WEBCAM_PROCEES_ID){
+    //Start the webcam process
+    const ffmpeg_command = `ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec:v mpeg1video -s 640x480 -b:v 1000k -bf 0 http://localhost:8181/supersecret`
+    WEBCAM_PROCEES_ID = cmd.get(ffmpeg_command, (err, data, strerr)=>{
+  console.log('IS THISD EEVNE WORKING!>!>!>!')
+  console.log({
+    err, data, strerr
+  })
+})
+  }
   socketServer.connectionCount++;
   console.log(
     "New WebSocket Connection: ",
@@ -56,6 +62,9 @@ socketServer.on("connection", function(socket, upgradeReq) {
     console.log(
       "Disconnected WebSocket (" + socketServer.connectionCount + " total)"
     );
+    if(socketServer.connectionCount == 0){
+      console.log('Stop the webcam already')
+    }
   });
 });
 socketServer.broadcast = function(data) {
